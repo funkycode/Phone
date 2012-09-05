@@ -1,6 +1,5 @@
 #include "menus.h"
 #include "files.h"
-#include "lists.h"
 
 #define contactsFile "contacs.txt"
 #define msgFile "msgs.txt"
@@ -9,16 +8,29 @@
 
 void main()
 {
+	int i;
 	Contacts contacts = MakeEmpty(NULL);
-	//debug
-	FILE* contactsFP;
+	Contacts* phonebook[LETTERS];
+
+	for (i=0;i<26;i++)
+               phonebook[i] = MakeEmpty(NULL);
+
+	
+	
+	
+	//debug: Creating dummy file
+
+	/*FILE* contactsFP;
 	contactsFP = fopen(contactsFile, "w");
-	fprintf(contactsFP,"1/nMisha/n0555/n0");
-	fclose(contactsFP);
+	fprintf(contactsFP,"1\nMisha\n0555\n0");
+	fclose(contactsFP);*/
 
     //end debug
 	
-	readContacts(contactsFile, contacts);
+	if(readContacts(contactsFile, phonebook))
+		printf("There was error reading the contacts from file");
+	
+	printAllContacts(phonebook);
 	//contacts->Element = (Contact*)malloc(sizeof(Contact);
 
 

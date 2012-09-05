@@ -13,7 +13,7 @@ void printMenu()
 	choice = getch();
 	switch(choice) {
 		case '1':
-			system("cls");
+			system("cls");			
 			printMenu2();
 			break;
 		case '2':
@@ -53,7 +53,7 @@ void printMenu2()
 			printf("2");
 			break;
 		case '3':
-			printf("3");
+			//printAllContacts(phonebook);
 			break;
 		case '4':
 			break;
