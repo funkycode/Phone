@@ -128,3 +128,15 @@ void DeleteList(List L)
 		P = Tmp; 
 	}
 }
+
+int TotalNum(List L)
+{
+ int count =0;
+ Position P = First(L);
+ while (P)
+ {
+	 count++;
+	 P = Advance(P);
+ }
+ return count;
+}

@@ -187,10 +187,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\menus.h"
-				>
-			</File>
-			<File
 				RelativePath=".\settings.h"
 				>
 			</File>
@@ -224,10 +220,6 @@
 			</File>
 			<File
 				RelativePath=".\main.c"
-				>
-			</File>
-			<File
-				RelativePath=".\menus.c"
 				>
 			</File>
 		</Filter>

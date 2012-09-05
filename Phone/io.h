@@ -2,4 +2,12 @@
 #include <stdlib.h>
 #include "contacts.h"
 
-void printAllContacts(Contacts* phonebook[]);
+
+
+
+void printMenu();
+void printMenu2();
+void printMenu3();
+void printMenu4();
+
+void printAllContacts(const Contacts* phonebook[]);

@@ -1,4 +1,4 @@
-#include "menus.h"
+#include "io.h"
 #include "files.h"
 
 #define contactsFile "contacs.txt"
@@ -9,13 +9,13 @@
 void main()
 {
 	int i;
+	char name[20] , name2[20] ;
 	Contacts contacts = MakeEmpty(NULL);
 	Contacts* phonebook[LETTERS];
 
 	for (i=0;i<26;i++)
                phonebook[i] = MakeEmpty(NULL);
 
-	
 	
 	
 	//debug: Creating dummy file
@@ -30,7 +30,7 @@ void main()
 	if(readContacts(contactsFile, phonebook))
 		printf("There was error reading the contacts from file");
 	
-	printAllContacts(phonebook);
+	 //printAllContacts(phonebook);
 	//contacts->Element = (Contact*)malloc(sizeof(Contact);
 
 
