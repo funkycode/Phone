@@ -13,30 +13,15 @@ void main()
 	Contacts contacts = MakeEmpty(NULL);
 	Contacts* phonebook[LETTERS];
 
-	for (i=0;i<26;i++)
+	for (i=0;i<LETTERS;i++)
                phonebook[i] = MakeEmpty(NULL);
 
-	
-	
-	//debug: Creating dummy file
-
-	/*FILE* contactsFP;
-	contactsFP = fopen(contactsFile, "w");
-	fprintf(contactsFP,"1\nMisha\n0555\n0");
-	fclose(contactsFP);*/
-
-    //end debug
 	
 	if(readContacts(contactsFile, phonebook))
 		printf("There was error reading the contacts from file");
 	
-	 //printAllContacts(phonebook);
-	//contacts->Element = (Contact*)malloc(sizeof(Contact);
-
-
-
-    
-	printMenu();
+	 printAllContacts(phonebook);
+	 printMenu();
 
 
 

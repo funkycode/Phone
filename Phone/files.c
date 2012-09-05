@@ -2,19 +2,18 @@
 
 int readContacts(const char* filename, Contacts* phonebook[])
 {
-	int ContactsNum, ContactsPhones, i, j;
+	int ContactsNum, i, j;
 	Contact* contact;
-	Contacts contacts;
-	Position P;
-	
-	//ElementType e;
-	
-	FILE* contactsFP;
+	Position P[LETTERS];
+    FILE* contactsFP;
+
 	contactsFP = fopen(filename,"r");
 
 	if (contactsFP)
 	{
 		if(fscanf(contactsFP, "%d",&ContactsNum)==1)
+			for(i=0;i<LETTERS;i++)
+				P[i]=phonebook[i];
 			
 		  for (i=0;i<ContactsNum;i++)
 			{
@@ -22,7 +21,9 @@ int readContacts(const char* filename, Contacts* phonebook[])
 				fscanf(contactsFP,"%s\n%s\n%d",&contact->name,&contact->number,&contact->type);
 				j = getTheLetter(contact->name[0]);
 				
-				Insert(contact,phonebook[j],phonebook[j]);
+				Insert(contact,phonebook[j],P[j]);
+				P[j]=Advance(P[j]);
+				
 
 			}
 		  fclose(contactsFP);

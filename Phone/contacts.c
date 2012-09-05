@@ -21,14 +21,14 @@ void  insertSortedContact(Contacts* contacts, Contact* c)
 	Position P = First(contacts);
 	contact = (Contact*)Retrieve(P);
 
-	while (P && strcmp(contact->name, c->name) == 1)
+	while (P && strcmp(contact->name, c->name) == -1)
 	{
 		P = Advance(P);
 		contact = (Contact*)Retrieve(P);
 		
 	}
 
-		while(P && contact->type > c->type && strcmp(contact->name, c->name) == 0)
+		while(P && contact->type < c->type && strcmp(contact->name, c->name) == 0)
 		{
 		   P = Advance(P);
            contact = (Contact*)Retrieve(P);   
