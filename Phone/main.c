@@ -1,6 +1,6 @@
 #include "menus.h"
 #include "files.h"
-//#include "lists.h"
+#include "lists.h"
 
 #define contactsFile "contacs.txt"
 #define msgFile "msgs.txt"
@@ -9,6 +9,7 @@
 
 void main()
 {
+	Contacts contacts = MakeEmpty(NULL);
 	//debug
 	FILE* contactsFP;
 	contactsFP = fopen(contactsFile, "w");
@@ -16,7 +17,7 @@ void main()
 	fclose(contactsFP);
 
     //end debug
-	Contacts* contacts = MakeEmpty(NULL);
+	
 	readContacts(contactsFile, contacts);
 	//contacts->Element = (Contact*)malloc(sizeof(Contact);
 

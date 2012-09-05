@@ -3,7 +3,7 @@
 int readContacts(const char* filename, Contacts* contacts)
 {
 	int ContactsNum, ContactsPhones,i;
-	Contacts* contact;
+	Contact* contact;
 	//ElementType e;
 	FILE* contactsFP;
 	contactsFP = fopen(filename,"r");
@@ -12,7 +12,7 @@ int readContacts(const char* filename, Contacts* contacts)
 		if(fscanf(contactsFP, "%d",&ContactsNum)==1)
 		  for (i=0;i<ContactsNum;i++)
 			{
-				//contact = (Contact)malloc(sizeof(Contact));
+				contact = (Contact*)malloc(sizeof(Contact));
 				fscanf(contactsFP,"%s/n%s/n%i/n",&contact->name,&contact->number,&contact->type);
 				//contact = (void*)malloc(sizeof(Contact));
 				Insert(contact,contacts,contacts);
