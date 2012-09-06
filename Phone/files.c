@@ -19,10 +19,16 @@ int readContacts(const char* filename, Contacts* phonebook[])
 			{
 				contact = (Contact*)malloc(sizeof(Contact));
 				fscanf(contactsFP,"%s\n%s\n%d",&contact->name,&contact->number,&contact->type);
-				j = getTheLetter(contact->name[0]);
+				contact->name[0] = toupper(contact->name[0]); // In case file was modified manually
 				
-				Insert(contact,phonebook[j],P[j]);
-				P[j]=Advance(P[j]);
+				if(getTheLetter(contact->name[0])!= -1) //Checking if first Letter is actualy a letter at all
+				{
+					Insert(contact,phonebook[getTheLetter(contact->name[0])],P[getTheLetter(contact->name[0])]);
+					P[getTheLetter(contact->name[0])]=Advance(P[getTheLetter(contact->name[0])]);
+				}
+				else
+					printf("The Contact was corrupted skipping it");
+				
 				
 
 			}
@@ -42,22 +48,32 @@ int readMsgLog()
 {
 	int MsgNum;
 }
-int writeContacts(const char* filename, Contacts* contacts)
+int writeContacts(const char* filename, Contacts* phonebook[])
 {
-	int ContactsNum, ContactsPhones,i;
+	int  i, j, ContactsNum=0;
 	Contact* contact;
-	//ElementType e;
 	FILE* contactsFP;
+	Position P;
 	contactsFP = fopen(filename,"w");
 	if (contactsFP)
 	{
-		if(fscanf(contactsFP, "%d",&ContactsNum)==1)
-		  for (i=0;i<ContactsNum;i++)
+		for (i=0;i<LETTERS;i++)
+			ContactsNum+=TotalNum(phonebook[i]);
+		if(fprintf(contactsFP, "%d\n",ContactsNum))
+		  for (i=0;i<LETTERS;i++)
 			{
-				contact = (Contact*)malloc(sizeof(Contact));
-				fscanf(contactsFP,"%s\n%s\n%i",&contact->name,&contact->number,&contact->type);
-				Insert(contact,contacts,contacts);
-				printf("%d\n\n", contact->name[0]);
+				P = phonebook[i];
+				if(P = Advance(P))
+				{
+					for(j=0;j<TotalNum(phonebook[i]);j++)
+					{
+						contact = (Contact*)Retrieve(P);
+						fprintf(contactsFP, "%s\n%s\n%d\n", contact->name, contact->number, contact->type);
+						P = Advance(P);
+					}
+				}
+
+
 			}
 		  fclose(contactsFP);
 		  return 0;

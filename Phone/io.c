@@ -1,6 +1,14 @@
 ﻿#include "io.h"
 
-void printMenu()
+
+
+void pressToContinue(){
+	 int anykey;
+     printf("\n\n\n\nTo Continue, please, press any key\n");
+	 anykey = getch();
+}
+
+void printMenu(const Contacts* phonebook[])
 {
 	int choice = NULL;
 	
@@ -13,7 +21,7 @@ void printMenu()
 	switch(choice) {
 		case '1':
 			system("cls");			
-			printMenu2();
+			printMenu2(phonebook);
 			break;
 		case '2':
 			system("cls");
@@ -28,17 +36,17 @@ void printMenu()
 			break;
 		default:
 			system("cls");
-			printMenu();
+			printMenu(phonebook);
 	}
 }
 
-void printMenu2()
+void printMenu2(Contacts* phonebook[])
 {
 	int choice = NULL;
 
 	printf("========== Contacts =============== \n\n");
 	printf("1.Find contact by name \n");
-	printf("2.Find a contact by partial name \n");
+	printf("2.Find a contact by partial \n");
 	printf("3.Show all contacts \n");
 	printf("4.Add new contact \n");
 	printf("5.Delete contact \n");
@@ -52,19 +60,28 @@ void printMenu2()
 			printf("2");
 			break;
 		case '3':
-			//printAllContacts(phonebook);
+			system("cls");
+			printAllContacts(phonebook);
+			pressToContinue();
+			system("cls");
+			printMenu2(phonebook);
 			break;
 		case '4':
+			system("cls");
+			addContact(phonebook);
+			pressToContinue();
+			system("cls");
+			printMenu2(phonebook);
 			break;
 		case '5':
 			break;
 		case '6':
 			system("cls");
-			printMenu();
+			printMenu(phonebook);
 			break;
 		default:
 			system("cls");
-			printMenu2();
+			printMenu2(phonebook);
 	}
 }
 
@@ -90,7 +107,7 @@ void printMenu3()
 			break;
 		case '4':
 			system("cls");
-			printMenu();
+		//	printMenu(phonebook);
 			break;
 		default:
 			system("cls");
@@ -120,7 +137,7 @@ void printMenu4()
 			break;
 		case '4':
 			system("cls");
-			printMenu();
+	//		printMenu(phonebook);
 			break;
 		default:
 			system("cls");
@@ -148,3 +165,35 @@ void printAllContacts(const Contacts* phonebook[])
 	}
 
 }
+int phoneType()
+{
+	int type = NULL;
+	
+	printf("\nSelect the type:\n");
+	printf("1.Mobile\n");
+	printf("2.Home\n");
+	printf("3.Work\n");
+	fflush(stdin);
+	type = getch();
+	switch(type) {
+		case '1':
+			return 0;
+			break;
+		case '2':
+			return 1;
+			break;
+		case '3':
+			return 2;
+			break;
+		default:
+			return phoneType();
+			break;
+	}
+}
+
+
+
+
+
+	
+	

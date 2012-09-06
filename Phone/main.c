@@ -9,20 +9,23 @@
 void main()
 {
 	int i;
-	char name[20] , name2[20] ;
 	Contacts contacts = MakeEmpty(NULL);
 	Contacts* phonebook[LETTERS];
-
+    
+	printf("\n\nInitializing data...\n\n");
 	for (i=0;i<LETTERS;i++)
                phonebook[i] = MakeEmpty(NULL);
 
-	
 	if(readContacts(contactsFile, phonebook))
-		printf("There was error reading the contacts from file");
-	
-	 printAllContacts(phonebook);
-	 printMenu();
+		printf("\n\nThere was error reading the contacts from the file\n\n");
+     
+	printf("Finished initialization");
+	pressToContinue();
+	system("cls");	
+	printMenu(phonebook);
 
+	if(writeContacts(contactsFile, phonebook))
+		printf("There was error writing the contacts to the file");
 
 
 }

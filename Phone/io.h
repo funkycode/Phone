@@ -5,9 +5,10 @@
 
 
 
-void printMenu();
-void printMenu2();
+void printMenu(const Contacts* phonebook[]);
+void printMenu2(Contacts* phonebook[]);
 void printMenu3();
 void printMenu4();
 
+void pressToContinue();
 void printAllContacts(const Contacts* phonebook[]);

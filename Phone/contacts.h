@@ -19,7 +19,7 @@ typedef struct
 typedef List Contacts;
 
 int getTheLetter(const char firstLetter);
-void insertSortedContact(Contacts* contact);
-
+void insertSortedContact(Contacts* contact, Contact* c);
+void addContact(Contacts* phonebook[]);
 
 #endif 
