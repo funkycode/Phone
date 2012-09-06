@@ -2,6 +2,7 @@
 
 
 
+
 void pressToContinue(){
 	 int anykey;
      printf("\n\n\n\nTo Continue, please, press any key\n");
@@ -54,10 +55,18 @@ void printMenu2(Contacts* phonebook[])
 	choice = getch();
 	switch(choice) {
 		case '1':
-			printf("1");
+			system("cls");
+			printContactByName(phonebook );
+			pressToContinue();
+			system("cls");
+			printMenu2(phonebook);
 			break;
 		case '2':
-			printf("2");
+			system("cls");
+			findContactByNum(phonebook );
+			pressToContinue();
+			system("cls");
+			printMenu2(phonebook);
 			break;
 		case '3':
 			system("cls");
@@ -191,6 +200,15 @@ int phoneType()
 	}
 }
 
+char searchQuery()
+{
+	char search[NAME_LENGTH];
+	printf("\nEnter the value to search:\n");
+	scanf("%s",&search);
+	search[0] = toupper(search[0]);
+	return search;
+
+}
 
 
 
