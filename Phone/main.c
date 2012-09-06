@@ -20,10 +20,13 @@ void main()
 	{
 		printf("\n\nThere was error reading the contacts from the file\n\n");
 		pressToContinue();
+		system("cls");
 	    
 	}
 
-    system("cls");
+
+
+    
 	printMenu(phonebook);
 
 	if(writeContacts(contactsFile, phonebook))

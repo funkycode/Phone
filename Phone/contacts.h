@@ -21,8 +21,10 @@ typedef List Contacts;
 int getTheLetter(const char firstLetter);
 void insertSortedContact(Contacts* contact, Contact* c);
 void addContact(Contacts* phonebook[]);
-void deleteContact(Contacts* phonebook[], char *name);
+void deleteContact(Contacts* phonebook[]);
 void findContactByNum(Contacts* phonebook[]);
-void printContactByName(Contacts* phonebook[]);
+void printContactByName(Contacts* clist); 
+Contacts getContactsbyName(const Contacts* phonebook[]);
+void printAllContacts(const Contacts* phonebook[]);
 
 #endif 

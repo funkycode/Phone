@@ -2,7 +2,7 @@
 
 int readContacts(const char* filename, Contacts* phonebook[])
 {
-	int ContactsNum, i, j;
+	int ContactsNum, i;
 	Contact* contact;
 	Position P[LETTERS];
     FILE* contactsFP;
