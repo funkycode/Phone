@@ -2,7 +2,7 @@
 
 int readContacts(const char* filename, Contacts* phonebook[])
 {
-	int ContactsNum, i;
+	int ContactsNum, i, corrupt = 0;
 	Contact* contact;
 	Position P[LETTERS];
     FILE* contactsFP;
@@ -14,7 +14,12 @@ int readContacts(const char* filename, Contacts* phonebook[])
 		if(fscanf(contactsFP, "%d",&ContactsNum)==1)
 			for(i=0;i<LETTERS;i++)
 				P[i]=phonebook[i];
-			
+		else
+		{
+
+			fclose(contactsFP);
+			return 0;
+		}
 		  for (i=0;i<ContactsNum;i++)
 			{
 				contact = (Contact*)malloc(sizeof(Contact));
@@ -27,15 +32,16 @@ int readContacts(const char* filename, Contacts* phonebook[])
 					P[getTheLetter(contact->name[0])]=Advance(P[getTheLetter(contact->name[0])]);
 				}
 				else
-					printf("The Contact was corrupted skipping it");
+					corrupt++;
 				
 				
 
 			}
+		  if(corrupt)
+			  printf("\nWARNING!!! %d contacts were corrupted, skipped them\n\n", corrupt);
 		  fclose(contactsFP);
 		  return 0;
 	}
-	fclose(contactsFP);
 	return 1;
 }
 
@@ -60,6 +66,7 @@ int writeContacts(const char* filename, Contacts* phonebook[])
 		for (i=0;i<LETTERS;i++)
 			ContactsNum+=TotalNum(phonebook[i]);
 		if(fprintf(contactsFP, "%d\n",ContactsNum))
+		{
 		  for (i=0;i<LETTERS;i++)
 			{
 				P = phonebook[i];
@@ -73,10 +80,13 @@ int writeContacts(const char* filename, Contacts* phonebook[])
 					}
 				}
 
-
+            
 			}
 		  fclose(contactsFP);
-		  return 0;
+			return 0;
+		  
+		}
+
 	}
 	return 1;
 	

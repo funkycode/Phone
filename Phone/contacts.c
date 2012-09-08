@@ -111,15 +111,12 @@ void deleteContact(Contacts* phonebook[])
 	Position P;
 
 	clist = getContactsbyName(phonebook);
-	printContactByName(clist);
+	printContactByName(clist, 1);
 	total = TotalNum(clist);
 	if(total)
 	{
 		P = clist;
-		printf("\n Select the number to delete(sorted due order above):\n  ");
-		for(i=0;i<total;i++)
-			printf("[%d] ",(i+1));
-		printf("\n");
+		printf("\n Select the number to delete:\n  ");
 		j = -1;
 		while(j <1 || j>total)
 		{
@@ -144,9 +141,9 @@ void deleteContact(Contacts* phonebook[])
 
 }
 
-void printContactByName(Contacts* clist)
+void printContactByName(Contacts* clist, int order)
 {
-	int i, type[TYPES], total;
+	int i, type[TYPES], total, count = 1;
 	Position P;
 	char * PhoneType[] = { "mobile" , "work", "home" };
 	Contact* contact;
@@ -167,12 +164,24 @@ void printContactByName(Contacts* clist)
 		{
 			contact = (Contact*)Retrieve(P);
 			type[contact->type]++;
+			count++;
 
-			if ( type[contact->type] > 1 )
-				printf("\n %s%d %s\n", PhoneType[contact->type], type[contact->type], contact->number);
+			if(order)
+			{
+				if ( type[contact->type] > 1 )
+					printf("\n%d) %s%d %s\n", count, PhoneType[contact->type], type[contact->type], contact->number);
+				else
+					printf("\n%d) %s %s\n", count, PhoneType[contact->type], contact->number);
+			}
 			else
-				printf("\n %s %s\n", PhoneType[contact->type], contact->number);
+			{
+				if ( type[contact->type] > 1 )
+					printf("\n %s%d %s\n", PhoneType[contact->type], type[contact->type], contact->number);
+				else
+					printf("\n %s %s\n", PhoneType[contact->type], contact->number);
+			}
 			P = Advance(P);
+
 
 
 
@@ -187,7 +196,7 @@ void printContactByName(Contacts* clist)
 Contacts getContactsbyName(const Contacts* phonebook[])
 {
 
-	int i, chk, total;
+	int i, total;
 	Contact* contact;
 	Contacts* clist = MakeEmpty(NULL);
 	Position P , N = clist;
@@ -238,35 +247,31 @@ void printAllContacts(const Contacts* phonebook[])
 	int i, j, type[TYPES];
 	Position P;
 	Contact* contact;
-	char name[NAME_LENGTH];
+	char name[NAME_LENGTH] = "";
 	char *  PhoneType[] = { "mobile" , "work", "home" };
-	
+
 
 	for (i=0;i<LETTERS;i++)
 	{
 		P = First(phonebook[i]);
 		while (P)
 		{
-			for(j=0;j<TYPES;j++)
-				type[j]=0;
+
 			contact = (Contact*)Retrieve(P);
-			printf("%s\n", contact->name);
-			printf("-- %s: %s \n", PhoneType[contact->type], contact->number);
-			type[contact->type]++;
-			strcpy(name, contact->name);
-			P = Advance(P);
-			while((P != NULL) && (strcmp(name,contact->name) == 0)) 
+			if(strcmp(name,contact->name))
 			{
-				contact = (Contact* )Retrieve(P);
-				type[contact->type]++;
-				if ( type[contact->type] > 1 )
-					printf("-- %s%d: %s\n", PhoneType[contact->type], type[contact->type], contact->number);
-				else
-					printf("-- %s: %s\n", PhoneType[contact->type], contact->number);
-                
-				P = Advance(P);
+				printf("\n%s\n", contact->name);
+				for(j=0;j<TYPES;j++)
+					type[j]=0;
 			}
-			printf("\n");
+			type[contact->type]++;
+			if ( type[contact->type] > 1 )
+				printf("-- %s%d: %s\n", PhoneType[contact->type], type[contact->type], contact->number);
+			else
+				printf("-- %s: %s\n", PhoneType[contact->type], contact->number);
+			strcpy(name, contact->name);
+
+			P = Advance(P);
 		}
 	}
 

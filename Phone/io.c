@@ -58,7 +58,7 @@ void printMenu2(Contacts* phonebook[])
 			system("cls");
 			contacts = getContactsbyName(phonebook);
 			system("cls");
-			printContactByName(contacts);
+			printContactByName(contacts, 0);
 			DeleteList(contacts);
 			pressToContinue();
 			system("cls");

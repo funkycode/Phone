@@ -23,7 +23,7 @@ void insertSortedContact(Contacts* contact, Contact* c);
 void addContact(Contacts* phonebook[]);
 void deleteContact(Contacts* phonebook[]);
 void findContactByNum(Contacts* phonebook[]);
-void printContactByName(Contacts* clist); 
+void printContactByName(Contacts* clist, int order); 
 Contacts getContactsbyName(const Contacts* phonebook[]);
 void printAllContacts(const Contacts* phonebook[]);
 
