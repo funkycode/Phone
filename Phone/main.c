@@ -1,9 +1,4 @@
 #include "io.h"
-#include "files.h"
-
-#define contactsFile "contacs.txt"
-#define msgFile "msgs.txt"
-#define callsFile "calls.txt"
 
 
 
@@ -13,7 +8,7 @@ void main()
 	int i;
 	Contacts contacts = MakeEmpty(NULL);
 	Contacts* phonebook[LETTERS];
-
+	
 	for (i=0;i<LETTERS;i++)
                phonebook[i] = MakeEmpty(NULL);
 
@@ -24,14 +19,13 @@ void main()
 		system("cls");
 	    
 	}
-
-
-
-    
+	    
 	printMenu(phonebook);
 
 	if(writeContacts(contactsFile, phonebook))
+	{
+		system("cls");
 		printf("There was error writing the contacts to the file");
-
-
+		pressToContinue();
+	}
 }

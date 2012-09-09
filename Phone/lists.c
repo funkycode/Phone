@@ -140,3 +140,19 @@ int TotalNum(List L)
  }
  return count;
 }
+
+void InsertLimitSize(ElementType X, List L, int size)
+{
+	int i, total;
+	Position P;
+
+	Insert(X,L,Header(L));
+	P = First(L);
+    total = TotalNum(L);
+	for(i=0;i>total;i++)
+	{
+		if(i > size)
+			Delete(P->Element,L);
+		P = Advance(P);
+	}
+}

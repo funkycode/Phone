@@ -65,14 +65,12 @@ void addContact(Contacts* phonebook[])
 		printf("\n\n\nFAILED!!! First letter should be a letter and not just any symbol\n\n");
 }
 
-Contact* findContactByNum(Contacts* phonebook[])
+Contact* findContactByNum(Contacts* phonebook[], char* number)
 {
 	int i, j, totalInList;
 	Contact* contact = NULL;
 	Position P;
-	char number[NUM_LENGTH];
 	
-	strcpy(number, searchQuery(number));
 	for(i=0;i<LETTERS;i++)
 	{
 		totalInList=TotalNum(phonebook[i]);
@@ -88,7 +86,7 @@ Contact* findContactByNum(Contacts* phonebook[])
 			}
 		}
 	}
-    return contact;
+    return NULL;
 }
 
 void deleteContact(Contacts* phonebook[],char* name)
@@ -227,11 +225,11 @@ void printAllContacts(const Contacts* phonebook[])
 	}
 }
 
-void printSingleContact(Contact* c)
+void printBasicInfo(Contact* c)
 {
 	char*  PhoneType[] = { "mobile" , "work", "home" };
 
-	printf("\n%s %s : %s\n", c->name, PhoneType[c->type], c->number); 
+	printf("\n%s %s:", c->name, PhoneType[c->type]); 
 }
 
 Contacts getContactsbyPartial(const Contacts* phonebook[], char* name)

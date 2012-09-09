@@ -22,6 +22,7 @@ Position FindPrevious(ElementType X, List L);
 void Insert(ElementType X, List L, Position P);
 void DeleteList(List L);
 int TotalNum(List L);
+void InsertLimitSize(ElementType X, List L, int size);
 
 #endif  /* _List_H */
 

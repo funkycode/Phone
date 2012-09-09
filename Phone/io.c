@@ -12,6 +12,15 @@ void pressToContinue(){
 void printMenu(const Contacts* phonebook[])
 {
 	int choice = NULL;
+	Calls* calls = MakeEmpty(NULL);
+
+	if(readCallLog(callsFile, phonebook, calls))
+	{
+		 system("cls");
+		 printf("WARNING!!!! There was error reading the calls log file!\n");
+		 pressToContinue();
+		 system("cls");
+	}
 
 	printf("========== Main Menu =============== \n\n");
 	printf("1.Contacts\n");
@@ -26,11 +35,11 @@ void printMenu(const Contacts* phonebook[])
 			break;
 		case '2':
 			system("cls");
-			printMenu3();
+			printMenu3(phonebook, calls);
 			break;
 		case '3':
 			system("cls");
-			printMenu4();
+			printMenu4(phonebook);
 			break;
 		case '4':
 			break;
@@ -45,6 +54,7 @@ void printMenu2(Contacts* phonebook[])
 	int choice = NULL;
 	Contacts* contacts = MakeEmpty(NULL);
 	char name[NAME_LENGTH] = "";
+
 
 	printf("========== Contacts =============== \n\n");
 	printf("1.Find contact by name \n");
@@ -109,10 +119,11 @@ void printMenu2(Contacts* phonebook[])
 	}
 }
 
-void printMenu3()
+void printMenu3(Contacts* phonebook[], Calls* calls)
 {
 	int choice = NULL;
-
+	
+	
 	printf("========== Call Logs =============== \n\n");
 	printf("1.Show all calls\n");
 	printf("2.Add new call \n");
@@ -121,25 +132,43 @@ void printMenu3()
 	choice = getch();
 	switch(choice) {
 		case '1':
-			printf("1");
+            system("cls");
+			printAllCalls(calls);
+			pressToContinue();
+			system("cls");
+			printMenu3(phonebook, calls);
 			break;
 		case '2':
-			printf("2");
+			system("cls");
+			AddNewCall(calls, phonebook);
+			pressToContinue();
+			system("cls");
+			printMenu3(phonebook, calls);			
 			break;
 		case '3':
-			printf("3");
+			system("cls");
+			DeleteCall(calls);
+			pressToContinue();
+			system("cls");
+			printMenu3(phonebook, calls);				
 			break;
 		case '4':
 			system("cls");
-			//	printMenu(phonebook);
+			if(writeCallLog(callsFile, calls))
+			{
+				printf("There was error writing the call logs to the file");
+				pressToContinue();
+				system("cls");
+			}
+			printMenu(phonebook);
 			break;
 		default:
 			system("cls");
-			printMenu3();
+			printMenu3(phonebook, calls);
 	}
 }
 
-void printMenu4()
+void printMenu4(Contacts* phonebook[])
 {
 	int choice = NULL;
 
@@ -151,21 +180,21 @@ void printMenu4()
 	choice = getch();
 	switch(choice) {
 		case '1':
-			printf("1");
+			
 			break;
 		case '2':
-			printf("2");
+			
 			break;
 		case '3':
-			printf("3");
+			
 			break;
 		case '4':
 			system("cls");
-			//		printMenu(phonebook);
+			printMenu(phonebook);
 			break;
 		default:
 			system("cls");
-			printMenu4();
+			printMenu4(phonebook);
 	}
 }
 
@@ -198,6 +227,32 @@ int phoneType()
 	}
 }
 
+int callType()
+{
+	int type = NULL;
+
+	printf("\nSelect the type:\n");
+	printf("1.Incoming\n");
+	printf("2.Outgoing\n");
+	printf("3.Missed\n");
+	fflush(stdin);
+	type = getch();
+	switch(type) {
+		case '1':
+			return 0;
+			break;
+		case '2':
+			return 1;
+			break;
+		case '3':
+			return 2;
+			break;
+		default:
+			return callType();
+			break;
+	}
+}
+
 
 char* searchQuery(char* query)
 {
@@ -226,3 +281,26 @@ int partialCompare(char first[], char second[])
 	return 0;
 }
 
+int dateAndDur(int day, int month, int minute, int hour, int duration)
+{
+	int result = 0;
+	result = day;
+	month = month << 5;
+	result = result | month;
+	minute = minute << 9;
+	result = result | minute;
+	hour = hour << 15;
+	result = result | hour;
+	duration = duration << 20;
+	result = result |  duration;
+
+	return result;
+}
+void printTime(const int bits) {
+	int duration = (bits >> 20) &  4095;
+	int minutes = duration / 60;
+	int seconds = (duration % 60); 
+	
+	printf(" %d/%d %d:%d | ", bits & 31,(bits >> 5) & 15, (bits >> 15) & 31	,(bits >> 9) & 63); 
+	printf("%dm %ds\n", minutes, seconds);
+}
