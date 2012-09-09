@@ -46,9 +46,15 @@ void AddNewCall(Calls* calls, Contacts* phonebook[])
 	call->contact = findContactByNum(phonebook, number);
 	call->type = callType();
 	GetSystemTime(&currentTime);
-	printf("\nPlease choose a duration:\n");
-	fflush(stdin);
-	scanf("%ld",&duration);
+	if(call->type !=3)
+	{
+
+	     printf("\nPlease choose a duration:\n");
+	     fflush(stdin);
+	     scanf("%ld",&duration);
+	}
+	else
+         duration = 0;
 	call->timeDur = dateAndDur(currentTime.wDay, currentTime.wMonth, currentTime.wHour, currentTime.wMinute , duration);
     InsertLimitSize(call,calls, MAX_CALL_LOG);
 
