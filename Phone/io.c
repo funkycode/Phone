@@ -44,6 +44,7 @@ void printMenu2(Contacts* phonebook[])
 {
 	int choice = NULL;
 	Contacts* contacts = MakeEmpty(NULL);
+	char name[NAME_LENGTH] = "";
 
 	printf("========== Contacts =============== \n\n");
 	printf("1.Find contact by name \n");
@@ -56,7 +57,8 @@ void printMenu2(Contacts* phonebook[])
 	switch(choice) {
 		case '1':
 			system("cls");
-			contacts = getContactsbyName(phonebook);
+			strcpy(name, searchQuery(name));
+			contacts = getContactsbyName(phonebook, name);
 			system("cls");
 			printContactByName(contacts, 0);
 			DeleteList(contacts);
@@ -66,7 +68,11 @@ void printMenu2(Contacts* phonebook[])
 			break;
 		case '2':
 			system("cls");
-			findContactByNum(phonebook );
+			strcpy(name, searchQuery(name));
+			contacts = getContactsbyPartial(phonebook, name);
+			system("cls");
+			printContactByName(contacts, 0);
+			DeleteList(contacts);
 			pressToContinue();
 			system("cls");
 			printMenu2(phonebook);
@@ -87,7 +93,8 @@ void printMenu2(Contacts* phonebook[])
 			break;
 		case '5':
 			system("cls");
-			deleteContact(phonebook);
+			strcpy(name, searchQuery(name));
+			deleteContact(phonebook, name);
 			pressToContinue();
 			system("cls");
 			printMenu2(phonebook);
@@ -192,7 +199,30 @@ int phoneType()
 }
 
 
+char* searchQuery(char* query)
+{
+	printf("\nEnter the value to search:\n");
+	fflush(stdin);
+    scanf("%s",query);
+	return query;
+}
 
 
 
+
+int partialCompare(char first[], char second[])
+{
+	
+	int i;
+
+	for(i=0; i<NAME_LENGTH; i++)
+    {
+     first[i] = tolower(first[i]);
+	 second[i] = tolower(second[i]);
+    }
+	if(strstr(first,second) != NULL)
+		return 1;
+	first[0] = toupper(first[0]); //We want to get to upper case first letter
+	return 0;
+}
 

@@ -79,18 +79,12 @@ int writeContacts(const char* filename, Contacts* phonebook[])
 						P = Advance(P);
 					}
 				}
-
-            
 			}
 		  fclose(contactsFP);
 			return 0;
-		  
 		}
-
 	}
 	return 1;
-	
-
 }
 int writeCallLog()
 {

@@ -10,3 +10,6 @@ void printMenu2(Contacts* phonebook[]);
 void printMenu3();
 void printMenu4();
 void pressToContinue();
+char* searchQuery(char* query);
+int fullCompare(char first[], char second[]);
+int partialCompare(char first[], char second[]);

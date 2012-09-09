@@ -27,26 +27,22 @@ void  insertSortedContact(Contacts* contacts, Contact* c)
 		contact = (Contact*)Retrieve(N);
 		chk = strcmp(contact->name, c->name);
 	}
-
 	while (N &&  chk == -1)
 	{
 		P = Advance(P);
-		if(N = Advance (P)){
+		if(N = Advance (P))
+		{
 			contact = (Contact*)Retrieve(N);
 			chk = strcmp(contact->name, c->name);
 		}
 	}
-
 	while(N && contact->type < c->type && strcmp(contact->name, c->name) == 0)
 	{
 		P = Advance(P);
 		if(N = Advance (P))
 			contact = (Contact*)Retrieve(N);   
-
 	}
 	Insert (c, contacts, P );
-
-
 }
 
 void addContact(Contacts* phonebook[])
@@ -67,21 +63,16 @@ void addContact(Contacts* phonebook[])
 		insertSortedContact(phonebook[getTheLetter(contact->name[0])], contact);
 	else
 		printf("\n\n\nFAILED!!! First letter should be a letter and not just any symbol\n\n");
-
-
 }
 
-void findContactByNum(Contacts* phonebook[])
+Contact* findContactByNum(Contacts* phonebook[])
 {
 	int i, j, totalInList;
-	Contact* contact;
+	Contact* contact = NULL;
 	Position P;
 	char number[NUM_LENGTH];
-	char *  PhoneType[] = { "mobile" , "work", "home" };
-
-	printf("\nEnter the value to search:\n");
-	scanf("%s",&number);
-
+	
+	strcpy(number, searchQuery(number));
 	for(i=0;i<LETTERS;i++)
 	{
 		totalInList=TotalNum(phonebook[i]);
@@ -93,24 +84,21 @@ void findContactByNum(Contacts* phonebook[])
 			contact = (Contact*)Retrieve(P);
 			if(strcmp(contact->number,number) == 0)
 			{
-				printf("\n%s %s : %s\n", contact->name, PhoneType[contact->type], contact->number); 
-
+				return contact;
 			}
-
 		}
 	}
-
-
+    return contact;
 }
 
-void deleteContact(Contacts* phonebook[])
+void deleteContact(Contacts* phonebook[],char* name)
 {
 	int i, j, total;
 	Contacts* clist = MakeEmpty(NULL);
 	Contact* c;
 	Position P;
 
-	clist = getContactsbyName(phonebook);
+	clist = getContactsbyName(phonebook, name);
 	printContactByName(clist, 1);
 	total = TotalNum(clist);
 	if(total)
@@ -128,50 +116,38 @@ void deleteContact(Contacts* phonebook[])
 			P = Advance(P);
 		c = (Contact*)Retrieve(P);
 		Delete(c,phonebook[getTheLetter(c->name[0])]);
-
-
-
-
 	}
-
-
-
-
-
-
 }
 
 void printContactByName(Contacts* clist, int order)
 {
-	int i, type[TYPES], total, count = 1;
+	int i, j, type[TYPES], total;
 	Position P;
 	char * PhoneType[] = { "mobile" , "work", "home" };
+	char name[NAME_LENGTH] = "";
 	Contact* contact;
 
 	total = TotalNum(clist);
 	if(total)
 	{
-		for(i=0;i<TYPES;i++)
-			type[i]=0;
-
 		P = First(clist);
-
-		contact = (Contact*)Retrieve(P);
-		printf("\n\n%s\n", contact->name);
-
-
 		for(i=0;i<total;i++)
 		{
-			contact = (Contact*)Retrieve(P);
+  			contact = (Contact*)Retrieve(P);
+			if(strcmp(contact->name,name) != 0)
+			{
+			    for(j=0;j<TYPES;j++)
+			        type[j]=0;
+				printf("\n\n%s\n", contact->name);
+				strcpy(name,contact->name);
+			}
 			type[contact->type]++;
-			count++;
-
 			if(order)
 			{
 				if ( type[contact->type] > 1 )
-					printf("\n%d) %s%d %s\n", count, PhoneType[contact->type], type[contact->type], contact->number);
+					printf("\n%d) %s%d %s\n", (i+1), PhoneType[contact->type], type[contact->type], contact->number);
 				else
-					printf("\n%d) %s %s\n", count, PhoneType[contact->type], contact->number);
+					printf("\n%d) %s %s\n", (i+1), PhoneType[contact->type], contact->number);
 			}
 			else
 			{
@@ -181,10 +157,6 @@ void printContactByName(Contacts* clist, int order)
 					printf("\n %s %s\n", PhoneType[contact->type], contact->number);
 			}
 			P = Advance(P);
-
-
-
-
 		}
 	}
 	else
@@ -193,53 +165,34 @@ void printContactByName(Contacts* clist, int order)
 
 
 
-Contacts getContactsbyName(const Contacts* phonebook[])
+Contacts getContactsbyName(const Contacts* phonebook[], char* name)
 {
 
 	int i, total;
 	Contact* contact;
 	Contacts* clist = MakeEmpty(NULL);
 	Position P , N = clist;
-	char name[NAME_LENGTH];
 
-	printf("\nEnter the name to search:\n");
-	scanf("%s",&name);
 	name[0] = toupper(name[0]);
-
 	if(getTheLetter(name[0])!= -1)
 	{
 		P = First(phonebook[getTheLetter(name[0])]);
 		total = TotalNum(phonebook[getTheLetter(name[0])]);
 		if(total>0)
 		{
-
 			for(i=0;i<total;i++)
 			{
 				contact = (Contact*)Retrieve(P);
-				if (strcmp(contact->name,name)==0)
+				if (strcmp(name,contact->name) == 0)
 				{
-					break;
+                    Insert(contact,clist,N);
 				}
+
 				P = Advance(P);
-			}
-
-
-
-			while (P && strcmp(contact->name,name)==0)
-			{
-
-
-				contact = (Contact*)Retrieve(P);
-				Insert(contact,clist,N);
-				P = Advance(P);
-				N = Advance(N);
 			}
 		}
-
 	}
 	return clist;
-
-
 }
 
 void printAllContacts(const Contacts* phonebook[])
@@ -256,7 +209,6 @@ void printAllContacts(const Contacts* phonebook[])
 		P = First(phonebook[i]);
 		while (P)
 		{
-
 			contact = (Contact*)Retrieve(P);
 			if(strcmp(name,contact->name))
 			{
@@ -266,13 +218,47 @@ void printAllContacts(const Contacts* phonebook[])
 			}
 			type[contact->type]++;
 			if ( type[contact->type] > 1 )
-				printf("-- %s%d: %s\n", PhoneType[contact->type], type[contact->type], contact->number);
+				printf("  %s%d: %s\n", PhoneType[contact->type], type[contact->type], contact->number);
 			else
-				printf("-- %s: %s\n", PhoneType[contact->type], contact->number);
+				printf("  %s: %s\n", PhoneType[contact->type], contact->number);
 			strcpy(name, contact->name);
-
 			P = Advance(P);
 		}
 	}
+}
 
+void printSingleContact(Contact* c)
+{
+	char*  PhoneType[] = { "mobile" , "work", "home" };
+
+	printf("\n%s %s : %s\n", c->name, PhoneType[c->type], c->number); 
+}
+
+Contacts getContactsbyPartial(const Contacts* phonebook[], char* name)
+{
+
+	int i, j, total;
+	Contact* contact;
+	Contacts* clist = MakeEmpty(NULL);
+	Position P , N = clist;
+
+	for(i=0;i<LETTERS;i++)
+	{
+		P = First(phonebook[i]);
+		total = TotalNum(phonebook[i]);
+		if(total>0)
+		{
+			for(j=0;j<total;j++)
+			{
+				contact = (Contact*)Retrieve(P);
+				if (partialCompare(contact->name,name))
+				{
+					contact->name[0] = toupper(contact->name[0]); //we want to get back to upper case
+                    Insert(contact,clist,N);
+				}
+				P = Advance(P);
+			}
+		}
+	}
+	return clist;
 }

@@ -6,13 +6,14 @@
 #define callsFile "calls.txt"
 
 
+
+
 void main()
 {
 	int i;
-	char name[NAME_LENGTH];
 	Contacts contacts = MakeEmpty(NULL);
 	Contacts* phonebook[LETTERS];
-    
+
 	for (i=0;i<LETTERS;i++)
                phonebook[i] = MakeEmpty(NULL);
 
