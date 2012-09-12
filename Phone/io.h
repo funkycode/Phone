@@ -25,4 +25,5 @@ int phoneType();
 int callType();
 int dateAndDur(int day, int month, int minute, int hour, int duration);
 void printTime(const int bits);
+void firstLettersUp(char* name);
 #endif

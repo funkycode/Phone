@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-//#include "contacts.h"
+#include "msg.h"
 #include "calls.h"
 //
 #ifndef  _files_H			

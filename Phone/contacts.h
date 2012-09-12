@@ -4,7 +4,7 @@
 #ifndef _contacts_H			
 #define _contacts_H
 
-#define NAME_LENGTH 15
+#define NAME_LENGTH 30
 #define NUM_LENGTH 15
 #define LETTERS 26
 #define TYPES 3

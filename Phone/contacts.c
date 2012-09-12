@@ -49,11 +49,13 @@ void addContact(Contacts* phonebook[])
 {
 	int  type = NULL;
 	Contact* contact;
+	char name[NAME_LENGTH];
+
 	contact = (Contact*)malloc(sizeof(Contact));
 	printf("\nPlease Enter the name:\n");
 	fflush(stdin);
-	scanf("%s",&contact->name);
-	contact->name[0] = toupper(contact->name[0]);
+	scanf("%[^\n]",contact->name);
+	firstLettersUp(&contact->name);
 	printf("\nPlease Enter the phone number:\n");
 	fflush(stdin);
 	scanf("%s",&contact->number);
@@ -171,7 +173,7 @@ Contacts getContactsbyName(const Contacts* phonebook[], char* name)
 	Contacts* clist = MakeEmpty(NULL);
 	Position P , N = clist;
 
-	name[0] = toupper(name[0]);
+	firstLettersUp(name);
 	if(getTheLetter(name[0])!= -1)
 	{
 		P = First(phonebook[getTheLetter(name[0])]);
@@ -251,7 +253,7 @@ Contacts getContactsbyPartial(const Contacts* phonebook[], char* name)
 				contact = (Contact*)Retrieve(P);
 				if (partialCompare(contact->name,name))
 				{
-					contact->name[0] = toupper(contact->name[0]); //we want to get back to upper case
+					firstLettersUp(contact->name); //we want to get back to upper case
                     Insert(contact,clist,N);
 				}
 				P = Advance(P);

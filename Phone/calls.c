@@ -71,7 +71,7 @@ void DeleteCall(Calls* calls)
 	char*  CallType[] = { "(in)" , "(out)", "(missed)" };
 
 	strcpy(name, searchQuery(name));
-	name[0] = toupper(name[0]);
+	firstLettersUp(name);
 	if(TotalNum(calls))
 	   P = First(calls);
     system("cls");

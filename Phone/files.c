@@ -11,7 +11,7 @@ int readContacts(const char* filename, Contacts* phonebook[])
 
 	if (contactsFP)
 	{
-		if(fscanf(contactsFP, "%d",&ContactsNum)==1)
+		if(fscanf(contactsFP, "%d\n",&ContactsNum)==1)
 			for(i=0;i<LETTERS;i++)
 				P[i]=phonebook[i];
 		else
@@ -23,9 +23,9 @@ int readContacts(const char* filename, Contacts* phonebook[])
 		  for (i=0;i<ContactsNum;i++)
 			{
 				contact = (Contact*)malloc(sizeof(Contact));
-				fscanf(contactsFP, "%s", &contact->name); 
-				fscanf(contactsFP,"%s\n%d", &contact->number,&contact->type);
-				contact->name[0] = toupper(contact->name[0]); // In case file was modified manually
+				fscanf(contactsFP, "%[^\n]", &contact->name); 
+				fscanf(contactsFP,"%s\n%d\n", &contact->number,&contact->type);
+				firstLettersUp(contact->name); // In case file was modified manually
 				
 				if(getTheLetter(contact->name[0])!= -1) //Checking if first Letter is actualy a letter at all
 				{
@@ -52,13 +52,12 @@ int readCallLog(const char* filename, Contacts* phonebook[], Calls* calls)
 	int i, CallsNum;
 	FILE* callsFP;
 	Position P = calls;
-	//char number[NUM_LENGTH];
 	Call* call;
 
 	callsFP = fopen(filename,"r");
 	if (callsFP)
 	{
-		fscanf(callsFP, "%d",&CallsNum);
+		fscanf(callsFP, "%d\n",&CallsNum);
 		if(CallsNum == 0)
 			return 0;
         for(i=0;i<CallsNum;i++)
@@ -74,9 +73,29 @@ int readCallLog(const char* filename, Contacts* phonebook[], Calls* calls)
 	}
 	return 1;
 }
-int readMsgLog()
+int readMsgLog(const char* filename, Contacts* phonebook[], Messages* messages)
 {
-	int MsgNum;
+	int i, MsgNum;
+	FILE* msgsFP;
+	Msg* msg;
+
+	msgsFP = fopen(filename, "r");
+	if(msgsFP)
+	{
+		fscanf(msgsFP, "%d",&MsgNum);
+		if(MsgNum == 0)
+			return 0;
+		for(i=0;i<MsgNum;i++)
+		{
+			msg = (Msg*)malloc(sizeof(Msg));
+			fscanf(msgsFP, "%s\n%s\n",&msg->number, &msg->date);
+			fscanf(msgsFP, "%[^\n]",&msg->msg);
+			InsertMsg(messages,msg,phonebook);
+		}
+		fclose(msgsFP);
+		return 0;
+	}
+	return 1;
 }
 int writeContacts(const char* filename, Contacts* phonebook[])
 {

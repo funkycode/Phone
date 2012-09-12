@@ -55,7 +55,6 @@ void printMenu2(Contacts* phonebook[])
 	Contacts* contacts = MakeEmpty(NULL);
 	char name[NAME_LENGTH] = "";
 
-
 	printf("========== Contacts =============== \n\n");
 	printf("1.Find contact by name \n");
 	printf("2.Find a contact by partial \n");
@@ -258,7 +257,7 @@ char* searchQuery(char* query)
 {
 	printf("\nEnter the value to search:\n");
 	fflush(stdin);
-    scanf("%s",query);
+    scanf("%30[^\n]",query);
 	return query;
 }
 
@@ -277,7 +276,7 @@ int partialCompare(char first[], char second[])
     }
 	if(strstr(first,second) != NULL)
 		return 1;
-	first[0] = toupper(first[0]); //We want to get to upper case first letter
+	firstLettersUp(first); //We want to get to upper case first letter
 	return 0;
 }
 
@@ -303,4 +302,16 @@ void printTime(const int bits) {
 	
 	printf(" %d/%d %d:%d | ", bits & 31,(bits >> 5) & 15, (bits >> 15) & 31	,(bits >> 9) & 63); 
 	printf("%dm %ds\n", minutes, seconds);
+}
+
+void firstLettersUp(char* name)
+{
+	int i, length;
+	length = strlen(name);
+	name[0] = toupper(name[0]);
+	for(i=0;i<length;i++)
+	{
+		if(name[i]==' ')
+			name[(i+1)]=toupper(name[i+1]);
+	}	
 }
