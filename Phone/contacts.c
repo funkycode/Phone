@@ -49,16 +49,15 @@ void addContact(Contacts* phonebook[])
 {
 	int  type = NULL;
 	Contact* contact;
-	char name[NAME_LENGTH];
 
 	contact = (Contact*)malloc(sizeof(Contact));
 	printf("\nPlease Enter the name:\n");
 	fflush(stdin);
-	scanf("%[^\n]",contact->name);
+	fgets(contact->name, NAME_LENGTH-1, stdin);
 	firstLettersUp(&contact->name);
 	printf("\nPlease Enter the phone number:\n");
 	fflush(stdin);
-	scanf("%s",&contact->number);
+    fgets(contact->number, NUM_LENGTH, stdin);
 	contact->type = phoneType();
 
 	if(getTheLetter(contact->name[0]) != -1)

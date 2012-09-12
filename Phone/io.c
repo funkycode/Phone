@@ -257,7 +257,7 @@ char* searchQuery(char* query)
 {
 	printf("\nEnter the value to search:\n");
 	fflush(stdin);
-    scanf("%30[^\n]",query);
+    fgets(query, NAME_LENGTH-1, stdin);
 	return query;
 }
 
