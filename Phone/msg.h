@@ -1,4 +1,5 @@
 #include "contacts.h"
+#include <Windows.h>
 
 #define MSG_LENGTH 130
 
@@ -11,18 +12,14 @@ typedef struct
 	char number[NUM_LENGTH];
 	int date;
 	Contact* contact;
+	int type;
 
 }Msg;
-//
-//typedef struct
-//{
-//	char number[NUM_LENGTH];
-//	Conversations ;
-//}Convo;
 
-//void InsertMsg(Conversations* conversations, Msg* msg);
-void insertWithName(Msg* msg, Messages* messages);
-//Conversation* findConversationNoName(Msg* msg, Messages* messages);
-
-
-
+void InsertWithName(Msg* msg, Messages* messages);
+void InsertNoName(Msg* msg, Messages* messages);
+void InsertMsg(Messages* messages, Msg* msg, Contacts* phonebook[]);
+void addMsg(Messages* messages, Contacts* phonebook[]);
+void printOneMsg(Msg* msg);
+void printAllMsgs(Messages* messages, Contacts* phonebook[]);
+void deleteMsg(Messages* messages, Contacts* phonebook[]);

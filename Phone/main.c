@@ -6,10 +6,13 @@
 void main()
 {
 	int i;
-	Contacts contacts = MakeEmpty(NULL);
+	//Contacts contacts = MakeEmpty(NULL);
 	Contacts* phonebook[LETTERS];
-	Messages* msgs = MakeEmpty(NULL);
+	Calls* calls = MakeEmpty(NULL);
+	Messages* messages = MakeEmpty(NULL);
+
 	
+		
 	for (i=0;i<LETTERS;i++)
                phonebook[i] = MakeEmpty(NULL);
 
@@ -20,17 +23,24 @@ void main()
 		system("cls");
 	    
 	}
-	
-	if(readMsgLog(msgFile,phonebook,msgs))
+
+	if(readCallLog(callsFile, phonebook, calls))
+	{
+		 system("cls");
+		 printf("WARNING!!!! There was error reading the calls log file!\n");
+		 pressToContinue();
+		 system("cls");
+	}
+
+	if(readMsgLog(msgFile, phonebook, messages))
 	{
 		printf("\n\nThere was error reading the msgs from the file\n\n");
 		pressToContinue();
 		system("cls");
 	    
 	}
-
-
-	printMenu(phonebook);
+	
+	printMenu(phonebook, calls, messages);
 
 	if(writeContacts(contactsFile, phonebook))
 	{

@@ -8,7 +8,6 @@
 #define NUM_LENGTH 15
 #define LETTERS 26
 #define TYPES 3
-#define UNKNOWN "Unknown"
 
 
 typedef struct
@@ -26,7 +25,7 @@ void addContact(Contacts* phonebook[]);
 void deleteContact(Contacts* phonebook[], char* name);
 Contact* findContactByNum(Contacts* phonebook[], char* number);
 void printContactByName(Contacts* clist, int order); 
-Contacts getContactsbyName(const Contacts* phonebook[], char* name);
+Contacts* getContactsbyName(const Contacts* phonebook[], char* name);
 void printAllContacts(const Contacts* phonebook[]);
 void printBasicInfo(Contact* c);
 

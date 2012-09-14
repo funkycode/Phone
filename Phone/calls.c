@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 
-void printAllCalls(const Calls* calls)
+void printAllCalls(const Calls* calls, Contacts* phonebook[])
 {
 	int i, total;
 	Position P;
@@ -19,7 +19,13 @@ void printAllCalls(const Calls* calls)
 		{
 			call = (Call*)Retrieve(P);
 			if(call->contact)
-			    printBasicInfo(call->contact);
+			{
+				 
+				if(findContactByNum(phonebook,call->number) != NULL)
+			        printBasicInfo(call->contact);
+				else
+		        	printf("\nUNKNOWN |   | ");        
+			}
 			else
 				printf("%s",call->number); 
 			printf(" | %s | ", CallType[call->type]);
@@ -102,6 +108,7 @@ void DeleteCall(Calls* calls)
 			N = Advance(N);
 		call = (Call*)Retrieve(N);
 		Delete(call, calls);
+		free(call);
 	}
 	else
 		printf("\nNot calls found\n");

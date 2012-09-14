@@ -53,11 +53,13 @@ void addContact(Contacts* phonebook[])
 	contact = (Contact*)malloc(sizeof(Contact));
 	printf("\nPlease Enter the name:\n");
 	fflush(stdin);
-	fgets(contact->name, NAME_LENGTH-1, stdin);
+	fgets(contact->name, NAME_LENGTH, stdin);
+	strtok(contact->name, "\n");
 	firstLettersUp(&contact->name);
 	printf("\nPlease Enter the phone number:\n");
 	fflush(stdin);
     fgets(contact->number, NUM_LENGTH, stdin);
+	strtok(contact->number, "\n");
 	contact->type = phoneType();
 
 	if(getTheLetter(contact->name[0]) != -1)
@@ -115,6 +117,7 @@ void deleteContact(Contacts* phonebook[],char* name)
 			P = Advance(P);
 		c = (Contact*)Retrieve(P);
 		Delete(c,phonebook[getTheLetter(c->name[0])]);
+		free(c);
 	}
 }
 
@@ -164,7 +167,7 @@ void printContactByName(Contacts* clist, int order)
 
 
 
-Contacts getContactsbyName(const Contacts* phonebook[], char* name)
+Contacts* getContactsbyName(const Contacts* phonebook[], char* name)
 {
 
 	int i, total;
@@ -184,7 +187,7 @@ Contacts getContactsbyName(const Contacts* phonebook[], char* name)
 				contact = (Contact*)Retrieve(P);
 				if (strcmp(name,contact->name) == 0)
 				{
-                    Insert(contact,clist,N);
+	                Insert(contact,clist,N);
 				}
 
 				P = Advance(P);
@@ -229,8 +232,8 @@ void printAllContacts(const Contacts* phonebook[])
 void printBasicInfo(Contact* c)
 {
 	char*  PhoneType[] = { "mobile" , "work", "home" };
-
-	printf("\n%s %s:", c->name, PhoneType[c->type]); 
+    
+	printf("\n%s | %s | ", c->name, PhoneType[c->type]); 
 }
 
 Contacts getContactsbyPartial(const Contacts* phonebook[], char* name)

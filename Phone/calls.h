@@ -17,7 +17,7 @@ typedef struct
 
 typedef List Calls;
 
-void printAllCalls(const Calls* calls);
+void printAllCalls(const Calls* calls, Contacts* phonebook[]);
 void AddNewCall(Calls* calls, Contacts* phonebook[]);
 
 #endif

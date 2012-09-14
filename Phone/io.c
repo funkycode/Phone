@@ -2,26 +2,18 @@
 
 
 
-
 void pressToContinue(){
 	int anykey;
 	printf("\n\n\n\nTo Continue, please, press any key\n");
 	anykey = getch();
 }
 
-void printMenu(const Contacts* phonebook[])
+void printMenu(Contacts* phonebook[], Calls* calls, Messages* messages)
 {
 	int choice = NULL;
-	Calls* calls = MakeEmpty(NULL);
+	
 
-	if(readCallLog(callsFile, phonebook, calls))
-	{
-		 system("cls");
-		 printf("WARNING!!!! There was error reading the calls log file!\n");
-		 pressToContinue();
-		 system("cls");
-	}
-
+	
 	printf("========== Main Menu =============== \n\n");
 	printf("1.Contacts\n");
 	printf("2.Call log \n");
@@ -31,25 +23,25 @@ void printMenu(const Contacts* phonebook[])
 	switch(choice) {
 		case '1':
 			system("cls");			
-			printMenu2(phonebook);
+			printMenu2(phonebook, calls, messages);
 			break;
 		case '2':
 			system("cls");
-			printMenu3(phonebook, calls);
+			printMenu3(phonebook, calls, messages);
 			break;
 		case '3':
 			system("cls");
-			printMenu4(phonebook);
+			printMenu4(phonebook, calls, messages);
 			break;
 		case '4':
 			break;
 		default:
 			system("cls");
-			printMenu(phonebook);
+			printMenu(phonebook, calls, messages);
 	}
 }
 
-void printMenu2(Contacts* phonebook[])
+void printMenu2(Contacts* phonebook[], Calls* calls, Messages* messages)
 {
 	int choice = NULL;
 	Contacts* contacts = MakeEmpty(NULL);
@@ -73,7 +65,7 @@ void printMenu2(Contacts* phonebook[])
 			DeleteList(contacts);
 			pressToContinue();
 			system("cls");
-			printMenu2(phonebook);
+			printMenu2(phonebook, calls, messages);
 			break;
 		case '2':
 			system("cls");
@@ -84,21 +76,21 @@ void printMenu2(Contacts* phonebook[])
 			DeleteList(contacts);
 			pressToContinue();
 			system("cls");
-			printMenu2(phonebook);
+			printMenu2(phonebook, calls, messages);
 			break;
 		case '3':
 			system("cls");
 			printAllContacts(phonebook);
 			pressToContinue();
 			system("cls");
-			printMenu2(phonebook);
+			printMenu2(phonebook, calls, messages);
 			break;
 		case '4':
 			system("cls");
 			addContact(phonebook);
 			pressToContinue();
 			system("cls");
-			printMenu2(phonebook);
+			printMenu2(phonebook, calls, messages);
 			break;
 		case '5':
 			system("cls");
@@ -106,19 +98,19 @@ void printMenu2(Contacts* phonebook[])
 			deleteContact(phonebook, name);
 			pressToContinue();
 			system("cls");
-			printMenu2(phonebook);
+			printMenu2(phonebook, calls, messages);
 			break;
 		case '6':
 			system("cls");
-			printMenu(phonebook);
+			printMenu(phonebook, calls, messages);
 			break;
 		default:
 			system("cls");
-			printMenu2(phonebook);
+			printMenu2(phonebook, calls, messages);
 	}
 }
 
-void printMenu3(Contacts* phonebook[], Calls* calls)
+void printMenu3(Contacts* phonebook[], Calls* calls, Messages* messages)
 {
 	int choice = NULL;
 	
@@ -132,24 +124,24 @@ void printMenu3(Contacts* phonebook[], Calls* calls)
 	switch(choice) {
 		case '1':
             system("cls");
-			printAllCalls(calls);
+			printAllCalls(calls, phonebook);
 			pressToContinue();
 			system("cls");
-			printMenu3(phonebook, calls);
+			printMenu3(phonebook, calls, messages);
 			break;
 		case '2':
 			system("cls");
 			AddNewCall(calls, phonebook);
 			pressToContinue();
 			system("cls");
-			printMenu3(phonebook, calls);			
+			printMenu3(phonebook, calls, messages);			
 			break;
 		case '3':
 			system("cls");
 			DeleteCall(calls);
 			pressToContinue();
 			system("cls");
-			printMenu3(phonebook, calls);				
+			printMenu3(phonebook, calls, messages);				
 			break;
 		case '4':
 			system("cls");
@@ -159,15 +151,15 @@ void printMenu3(Contacts* phonebook[], Calls* calls)
 				pressToContinue();
 				system("cls");
 			}
-			printMenu(phonebook);
+			printMenu(phonebook, calls, messages);
 			break;
 		default:
 			system("cls");
-			printMenu3(phonebook, calls);
+			printMenu3(phonebook, calls, messages);
 	}
 }
 
-void printMenu4(Contacts* phonebook[])
+void printMenu4(Contacts* phonebook[], Calls* calls, Messages* messages)
 {
 	int choice = NULL;
 
@@ -179,21 +171,33 @@ void printMenu4(Contacts* phonebook[])
 	choice = getch();
 	switch(choice) {
 		case '1':
-			
+			system("cls");
+			//
+			pressToContinue();
+			system("cls");
+			printMenu4(phonebook, calls, messages);			
 			break;
 		case '2':
-			
+			system("cls");
+			addMsg(messages, phonebook);
+			pressToContinue();
+			system("cls");
+			printMenu4(phonebook, calls, messages);			
 			break;
 		case '3':
-			
+			system("cls");
+			//
+			pressToContinue();
+			system("cls");
+			printMenu4(phonebook, calls, messages);			
 			break;
 		case '4':
 			system("cls");
-			printMenu(phonebook);
+			printMenu(phonebook, calls, messages);
 			break;
 		default:
 			system("cls");
-			printMenu4(phonebook);
+			printMenu4(phonebook, calls, messages);
 	}
 }
 
@@ -252,12 +256,36 @@ int callType()
 	}
 }
 
+int msgType()
+{
+	int type = NULL;
+
+	printf("\nSelect the type:\n");
+	printf("1.Incoming\n");
+	printf("2.Outgoing\n");
+	fflush(stdin);
+	type = getch();
+	switch(type) {
+		case '1':
+			return 0;
+			break;
+		case '2':
+			return 1;
+			break;
+		default:
+			return msgType();
+			break;
+	}
+}
+
+
 
 char* searchQuery(char* query)
 {
 	printf("\nEnter the value to search:\n");
 	fflush(stdin);
-    fgets(query, NAME_LENGTH-1, stdin);
+    fgets(query, NAME_LENGTH, stdin);
+	strtok(query, "\n");
 	return query;
 }
 
