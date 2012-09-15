@@ -58,8 +58,6 @@ int readCallLog(const char* filename, Contacts* phonebook[], Calls* calls)
 	if (callsFP)
 	{
 		fscanf(callsFP, "%d\n",&CallsNum);
-		if(CallsNum == 0)
-			return 0;
         for(i=0;i<CallsNum;i++)
 		{
 			call = (Call*)malloc(sizeof(Call));
@@ -83,13 +81,11 @@ int readMsgLog(const char* filename, Contacts* phonebook[], Messages* messages)
 	if(msgsFP)
 	{
 		fscanf(msgsFP, "%d",&MsgNum);
-		if(MsgNum == 0)
-			return 0;
 		for(i=0;i<MsgNum;i++)
 		{
 			msg = (Msg*)malloc(sizeof(Msg));
-			fscanf(msgsFP, "%s\n%s\n",&msg->number, &msg->date);
-			fscanf(msgsFP, "%[^\n]",&msg->msg);
+			fscanf(msgsFP, "%s\n%d\n%d\n",&msg->number, &msg->date, &msg->type);
+			fscanf(msgsFP, "%[^\n]s",&msg->msg);
 			InsertMsg(messages,msg,phonebook);
 		}
 		fclose(msgsFP);
@@ -154,6 +150,46 @@ int writeCallLog(const char* filename, Calls* calls)
 
 
 }
-int writeMsgLog()
+int writeMsgLog(const char* filename, Messages* messages)
 {
+	int i, j, ConvoNum, MsgNum, TotalMsg = 0;
+	FILE* msgsFP;
+	Msg* msg;
+	Conversations* conversations;
+	Position P, D;
+
+	msgsFP = fopen(filename, "w");
+	if(msgsFP)
+	{
+		ConvoNum = TotalNum(messages);
+		if(ConvoNum>0)
+			P = First(messages);
+        for(i=0;i<ConvoNum;i++)
+		{
+			conversations = (Conversations*)Retrieve(P);
+			TotalMsg = TotalMsg + TotalNum(conversations);
+			P = Advance(P);
+		}
+		fprintf(msgsFP, "%d\n",TotalMsg);
+		P = messages;
+		for(i=0;i<ConvoNum;i++)
+		{
+			P = Advance(P);
+            conversations = (Conversations*)Retrieve(P);
+			MsgNum = TotalNum(conversations);
+			D = conversations;
+            for(j=0;j<MsgNum;j++)
+			{
+				D = Advance(D);
+				msg = (Msg*)Retrieve(D);
+			    fprintf(msgsFP, "%s\n%d\n%d\n", msg->number, msg->date, msg->type);
+			    fprintf(msgsFP, "%s\n", msg->msg);
+			}
+		}
+		fclose(msgsFP);
+		return 0;
+	}
+	return 1;
+
+
 }

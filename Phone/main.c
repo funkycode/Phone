@@ -45,7 +45,24 @@ void main()
 	if(writeContacts(contactsFile, phonebook))
 	{
 		system("cls");
-		printf("There was error writing the contacts to the file");
+		printf("There was error writing the contacts to the file\n");
 		pressToContinue();
 	}
+
+	if(writeCallLog(callsFile, calls))
+	{
+		 system("cls");
+		 printf("WARNING!!!! There was error write the calls  to file!\n");
+		 pressToContinue();
+		 system("cls");
+	}
+
+
+	if(writeMsgLog(msgFile, messages))
+	{
+		system("cls");
+		printf("There was error writing the msgs to the file\n");
+		pressToContinue();
+	}
+
 }

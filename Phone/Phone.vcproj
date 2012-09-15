@@ -194,10 +194,6 @@
 				RelativePath=".\msg.h"
 				>
 			</File>
-			<File
-				RelativePath=".\settings.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

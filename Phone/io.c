@@ -172,7 +172,7 @@ void printMenu4(Contacts* phonebook[], Calls* calls, Messages* messages)
 	switch(choice) {
 		case '1':
 			system("cls");
-			//
+			printRecentMsgs(messages, phonebook);
 			pressToContinue();
 			system("cls");
 			printMenu4(phonebook, calls, messages);			
@@ -186,7 +186,7 @@ void printMenu4(Contacts* phonebook[], Calls* calls, Messages* messages)
 			break;
 		case '3':
 			system("cls");
-			//
+			printConvo(messages, phonebook);
 			pressToContinue();
 			system("cls");
 			printMenu4(phonebook, calls, messages);			
@@ -254,6 +254,20 @@ int callType()
 			return callType();
 			break;
 	}
+}
+
+int msgToPrint(int max)
+{
+	int quantity = 0;
+
+	printf("\nSelect how many last msgs to print:\n");
+	while(quantity < 1 || quantity > max)
+	{
+		quantity = getch();
+	    quantity = atoi(&quantity);
+	}
+	return quantity;
+
 }
 
 int msgType()

@@ -187,7 +187,7 @@ Contacts* getContactsbyName(const Contacts* phonebook[], char* name)
 				contact = (Contact*)Retrieve(P);
 				if (strcmp(name,contact->name) == 0)
 				{
-	                Insert(contact,clist,N);
+	                Insert(contact,clist,clist);
 				}
 
 				P = Advance(P);
